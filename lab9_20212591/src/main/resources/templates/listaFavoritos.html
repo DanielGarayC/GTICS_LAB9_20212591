@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista Favoritos</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+
+        .card-img-top {
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">My Favorite Meals</h1>
+
+
+
+
+
+    <div class="row">
+        <div th:each="favorite : ${lista}" class="col-md-4 mb-4">
+            <div class="card h-100">
+                <p th:text="${favorite.nombre}" class="card-title text-center"></p>
+                <img th:src="${favorite.foto}" class="card-img-top" alt="Imagen de categoría">
+                <div class="card-body">
+                    <h5 th:text="${favorite.categoria}" class="card-text text-center"></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
