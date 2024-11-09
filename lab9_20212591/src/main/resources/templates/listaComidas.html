@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Comidas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+
+        .card-img-top {
+            padding: 20px;
+            margin-bottom: 10px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">TELEMEAL</h1>
+
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-6">
+            <form th:action="@{/Meal/buscar}" method="get" class="input-group">
+                <input type="text" name="nombre" class="form-control" placeholder="Search for a meal">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div th:if="${meals == null}">
+        <div class="row">
+            <div th:each="categoria : ${lista}" class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <h5 th:text="${categoria.strCategory}" class="card-title text-center"></h5>
+                    <img th:src="${categoria.strCategoryThumb}" class="card-img-top" alt="Imagen de categoría">
+                    <div class="card-body">
+                        <p th:text="${categoria.strCategoryDescription}" class="card-text  font-weight-bold"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div th:if="${meals != null}">
+            <div class="row">
+                    <div th:each="meal : ${meals}" class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <h3 th:text="${meal.strMeal}" class="card-title text-center "></h3>
+                            <a th:href="@{/Meal/detalle(idMeal=${meal.idMeal})}">
+                                <img th:src="${meal.strMealThumb}" class="card-img-top" alt="Imagen de la comida">
+                            </a>
+                            <div class="card-body">
+                            <p th:text="${meal.strCategory}" class="card-text text-center font-weight-bold"></p>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+
+</div>
+</body>
+</html>
