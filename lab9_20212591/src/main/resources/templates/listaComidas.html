@@ -25,6 +25,11 @@
                 </div>
             </form>
         </div>
+        <div class="col-md-6 text-right">
+            <a th:href="@{/listarFavoritos}">
+                <button id="list-favorites" class="btn btn-success">List my favorites</button>
+            </a>
+        </div>
     </div>
     <div th:if="${meals == null}">
         <div class="row">
@@ -39,21 +44,21 @@
             </div>
         </div>
     </div>
-        <div th:if="${meals != null}">
-            <div class="row">
-                    <div th:each="meal : ${meals}" class="col-md-4 mb-4">
-                        <div class="card h-100">
-                            <h3 th:text="${meal.strMeal}" class="card-title text-center "></h3>
-                            <a th:href="@{/Meal/detalle(idMeal=${meal.idMeal})}">
-                                <img th:src="${meal.strMealThumb}" class="card-img-top" alt="Imagen de la comida">
-                            </a>
-                            <div class="card-body">
-                            <p th:text="${meal.strCategory}" class="card-text text-center font-weight-bold"></p>
-                            </div>
-                        </div>
+    <div th:if="${meals != null}">
+        <div class="row">
+            <div th:each="meal : ${meals}" class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <h3 th:text="${meal.strMeal}" class="card-title text-center "></h3>
+                    <a th:href="@{/Meal/detalle(idMeal=${meal.idMeal})}">
+                        <img th:src="${meal.strMealThumb}" class="card-img-top" alt="Imagen de la comida">
+                    </a>
+                    <div class="card-body">
+                        <p th:text="${meal.strCategory}" class="card-text text-center font-weight-bold"></p>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
 </div>
 </body>
