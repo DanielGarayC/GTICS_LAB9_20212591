@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Detalle de la Receta</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    .container-img {
+      max-width: 20%;
+      height: auto;
+      margin: 0 auto;
+      display: block;
+    }
+    .bold-text {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+<div class="container mt-5">
+  <h1 class="text-center mb-4">TELEMEAL</h1>
+
+  <div class="card mb-3">
+    <img th:src="${receta.strMealThumb}" class="card-img-top container-img" alt="Imagen de la comida">
+    <div class="card-body">
+      <h2 th:text="${receta.strMeal}" class="card-title"></h2>
+      <p><span class="bold-text">Category:</span> <span th:text="${receta.strCategory}"></span></p>
+      <p><span class="bold-text">Area:</span> <span th:text="${receta.strArea}"></span></p>
+      <p><span class="bold-text">Tags:</span> <span th:text="${receta.strTags}"></span></p>
+      <p><span class="bold-text">Instructions:</span> <span th:text="${receta.strInstructions}"></span></p>
+      <h4 class="bold-text">Ingredients:</h4>
+      <ul>
+        <li th:each="ingredient, stat : ${receta.strIngredients}"
+            th:text="${receta.strMeasures[stat.index]} + ' ' + ${ingredient}"></li>
+      </ul>
+    </div>
+  </div>
+</div>
+</body>
+</html>

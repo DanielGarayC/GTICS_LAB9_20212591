@@ -15,6 +15,6 @@ public class CategoriaController {
     @GetMapping("/categorias/lista")
     public String listarCategorias(Model model){
         model.addAttribute("lista",categoriaDao.listarCategorias());
-        return "listaCategorias";
+        return "listaComidas";
     }
 }
