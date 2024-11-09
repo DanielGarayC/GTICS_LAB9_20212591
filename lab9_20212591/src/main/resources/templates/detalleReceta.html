@@ -3,6 +3,8 @@
 <head>
   <title>Detalle de la Receta</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
   <style>
     .container-img {
       max-width: 20%;
@@ -13,27 +15,97 @@
     .bold-text {
       font-weight: bold;
     }
+    .btn-add-to-favorite {
+      background-color: white;
+      border: 2px solid #007bff;
+      color: #007bff;
+      font-weight: bold;
+    }
+    .modal-footer .btn-primary {
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+    .btn-favoritee {
+      background-color: #28a745;
+      color: white;
+      box-shadow: none;
+    }
+
   </style>
 </head>
 <body>
 <div class="container mt-5">
   <h1 class="text-center mb-4">TELEMEAL</h1>
 
-  <div class="card mb-3">
-    <img th:src="${receta.strMealThumb}" class="card-img-top container-img" alt="Imagen de la comida">
-    <div class="card-body">
-      <h2 th:text="${receta.strMeal}" class="card-title"></h2>
-      <p><span class="bold-text">Category:</span> <span th:text="${receta.strCategory}"></span></p>
-      <p><span class="bold-text">Area:</span> <span th:text="${receta.strArea}"></span></p>
-      <p><span class="bold-text">Tags:</span> <span th:text="${receta.strTags}"></span></p>
-      <p><span class="bold-text">Instructions:</span> <span th:text="${receta.strInstructions}"></span></p>
-      <h4 class="bold-text">Ingredients:</h4>
-      <ul>
-        <li th:each="ingredient, stat : ${receta.strIngredients}"
-            th:text="${receta.strMeasures[stat.index]} + ' ' + ${ingredient}"></li>
-      </ul>
+  <div class="row justify-content-center mb-4">
+    <div class="col-md-6">
+      <!-- Receta -->
+      <div class="card mb-3">
+        <img th:src="${receta.strMealThumb}" class="card-img-top container-img" alt="Imagen de la comida">
+        <div class="card-body">
+          <h2 th:text="${receta.strMeal}" class="card-title text-center"></h2>
+          <div class="text-center">
+              <button type="button" id="add-to-favorite" class="btn btn-add-to-favorite" th:data-idMeal="${receta.idMeal}" onclick="addToFavorite(this)">★ Add to favorite</button>
+          </div>
+          <p><span class="bold-text">Category:</span> <span th:text="${receta.strCategory}"></span></p>
+          <p><span class="bold-text">Area:</span> <span th:text="${receta.strArea}"></span></p>
+          <p><span class="bold-text">Tags:</span> <span th:text="${receta.strTags}"></span></p>
+          <p><span class="bold-text">Instructions:</span> <span th:text="${receta.strInstructions}"></span></p>
+        </div>
+      </div>
+
+      <div class="modal fade" id="favoriteModal" tabindex="-1" aria-labelledby="favoriteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="favoriteModalLabel">Congratulations!</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              You added this meal to favorites.
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     </div>
   </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  function addToFavorite(button) {
+    var idMeal = button.getAttribute("data-idMeal");
+
+    $.ajax({
+      url: '/Meal/guardarRecetaFavorita',
+      type: 'POST',
+      data: { idMeal: idMeal },
+      success: function(response) {
+        if (response === "success") {
+
+          $('#favoriteModal').modal('show');
+
+          button.innerHTML = '✔ Favorite';
+          button.classList.remove("btn-add-to-favorite");
+          button.classList.add("btn-favoritee");
+          button.disabled = true;
+        }
+      },
+      error: function(xhr, status, error) {
+        console.log("Error al guardar la receta: " + error);
+      }
+    });
+  }
+</script>
+
 </body>
 </html>
